@@ -66,7 +66,7 @@ struct ContentView: View {
                                 self.conway[x: x, y: y].toggle()
                             }) {
                                 Rectangle()
-                                    .fill(self.conway[x: x, y: y] ? Color.black : [Color.blue, Color.green].randomElement()!)
+                                    .fill(self.conway[x: x, y: y] ? Color.black : Color.white)
                             }.buttonStyle(PlainButtonStyle())
                         }
                     }
