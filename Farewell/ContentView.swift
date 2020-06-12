@@ -66,9 +66,9 @@ struct ContentView: View {
     var body: some View {
         VStack {
             VStack(spacing: 2) {
-                ForEach(0..<self.conway.gridSize, id: \.self) { y in
+                ForEach(0..<self.conway.gridSize) { y in
                     HStack(spacing: 2) {
-                        ForEach(0..<self.conway.gridSize, id: \.self) { x in
+                        ForEach(0..<self.conway.gridSize) { x in
                             Button(action: {
                                 self.conway[x: x, y: y].toggle()
                             }) {
