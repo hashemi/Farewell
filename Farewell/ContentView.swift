@@ -78,7 +78,10 @@ struct ContentView: View {
                         }
                     }
                 }
-            }.aspectRatio(1.0, contentMode: .fit)
+            }
+            .aspectRatio(1.0, contentMode: .fit)
+            .background(Color.black)
+            
             Spacer()
             Button(action: {
                 self.conway.tick()
