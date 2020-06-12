@@ -35,7 +35,8 @@ struct Conway {
     }
     
     mutating func tick() {
-        var next = self
+        var changeList: [(x: Int, y: Int, v: Bool)] = []
+
         for x in 1..<(gridSize - 1) {
             for y in 1..<(gridSize - 1) {
                 let ln = liveNeighbours(x: x, y: y)
@@ -43,17 +44,19 @@ struct Conway {
                 if ln == 2 {
                     // 2 neighbours & alive, stays alive otherwise stays dead
                 } else if ln == 3 {
-                    // 3 neighbours will always stay alive
-                    next[x: x, y: y] = true
+                    // 3 neighbours and dead becomes alive
+                    if !self[x: x, y: y] { changeList.append((x, y, true)) }
                 } else {
-                    // any number of neighbours other than 2 or 3 will die or stay dead
-                    next[x: x, y: y] = false
+                    // any number of neighbours other than 2 or 3 and alive should die
+                    if self[x: x, y: y] { changeList.append((x, y, false)) }
                 }
             }
         }
         
-        // replace the current matrix with the next one
-        self = next
+        // apply changes
+        for (x, y, v) in changeList {
+            self[x: x, y: y] = v
+        }
     }
 }
 
