@@ -8,14 +8,18 @@
 
 import SwiftUI
 
-let maxSize = 64
-
 struct Conway {
-    private var data = Array(repeating: false, count: maxSize * maxSize)
+    let gridSize: Int
+    private var data: [Bool]
+
+    init(gridSize: Int) {
+        self.gridSize = gridSize
+        self.data = Array(repeating: false, count: gridSize * gridSize)
+    }
 
     subscript(x x: Int, y y: Int) -> Bool {
-        get { data[y * maxSize + x] }
-        set { data[y * maxSize + x] = newValue }
+        get { data[y * gridSize + x] }
+        set { data[y * gridSize + x] = newValue }
     }
 
     private func liveNeighbours(x: Int, y: Int) -> Int {
@@ -32,8 +36,8 @@ struct Conway {
     
     mutating func tick() {
         var next = self
-        for x in 1..<(maxSize - 1) {
-            for y in 1..<(maxSize - 1) {
+        for x in 1..<(gridSize - 1) {
+            for y in 1..<(gridSize - 1) {
                 let ln = liveNeighbours(x: x, y: y)
                 
                 if ln == 2 {
@@ -54,14 +58,14 @@ struct Conway {
 }
 
 struct ContentView: View {
-    @State var conway = Conway()
+    @State var conway = Conway(gridSize: 64)
     
     var body: some View {
         VStack {
             VStack(spacing: 2) {
-                ForEach(0..<maxSize, id: \.self) { y in
+                ForEach(0..<self.conway.gridSize, id: \.self) { y in
                     HStack(spacing: 2) {
-                        ForEach(0..<maxSize, id: \.self) { x in
+                        ForEach(0..<self.conway.gridSize, id: \.self) { x in
                             Button(action: {
                                 self.conway[x: x, y: y].toggle()
                             }) {
