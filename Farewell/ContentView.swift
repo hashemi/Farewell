@@ -62,7 +62,9 @@ struct Conway {
 
 struct ContentView: View {
     @State var conway = Conway(gridSize: 64)
-    
+    @State var autoPlay = false
+    let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+
     var body: some View {
         VStack {
             VStack(spacing: 2) {
@@ -81,12 +83,30 @@ struct ContentView: View {
             }
             .aspectRatio(1.0, contentMode: .fit)
             .background(Color.black)
+            .onReceive(timer) { _ in
+                if self.autoPlay {
+                    self.conway.tick()
+                }
+            }
             
             Spacer()
-            Button(action: {
-                self.conway.tick()
-            }) {
-                Text("Tick")
+            HStack {
+                Button(action: {
+                    self.conway.tick()
+                }) {
+                    Text("Tick")
+                }
+                
+                Button(action: {
+                    self.autoPlay.toggle()
+                }) {
+                    if self.autoPlay {
+                        Text("Pause")
+                    } else {
+                        Text("Play")
+                    }
+                }
+
             }
             Spacer()
         }
