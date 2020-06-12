@@ -19,19 +19,15 @@ struct Conway {
     }
 
     private func liveNeighbours(x: Int, y: Int) -> Int {
-        var count = 0
-        
         // check all neighbours
-        for nx in (x - 1)...(x + 1) {
-            for ny in (y - 1)...(y + 1) {
-                if self[x: nx, y: ny] { count += 1 }
-            }
-        }
-        
-        // don't count ourselves
-        if self[x: x, y: y] { count -= 1 }
-        
-        return count
+        return (self[x: x - 1, y: y - 1] ? 1 : 0) +
+            (self[x: x, y: y - 1] ? 1 : 0) +
+            (self[x: x + 1, y: y - 1] ? 1 : 0) +
+            (self[x: x - 1, y: y] ? 1 : 0) +
+            (self[x: x + 1, y: y] ? 1 : 0) +
+            (self[x: x - 1, y: y + 1] ? 1 : 0) +
+            (self[x: x, y: y + 1] ? 1 : 0) +
+            (self[x: x + 1, y: y + 1] ? 1 : 0)
     }
     
     mutating func tick() {
